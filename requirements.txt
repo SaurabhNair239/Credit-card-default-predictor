@@ -3,4 +3,5 @@ seaborn
 numpy
 scikit-learn
 xgboost
+pyodbc
 -e .

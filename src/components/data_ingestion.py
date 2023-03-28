@@ -4,6 +4,7 @@ from src.exception import CustomException
 from src.logger import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import pyodbc
 from dataclasses import dataclass
 
 @dataclass
@@ -19,7 +20,19 @@ class DataIngestion:
     def start_ingestion_data(self):
         logging.info("Started Data ingestion method")
         try:
-            data = pd.read_csv("notebook/data/UCI_Credit_Card.csv")
+            #data = pd.read_csv("notebook/data/UCI_Credit_Card.csv")
+            server = "studentpractice.database.windows.net"
+            db_name = "credit_card_defaulter"
+            username= "Saurabh"
+            password = "C50keshavkunj"
+            driver= '{ODBC Driver 17 for SQL Server}'
+            conn = pyodbc.connect('DRIVER=' + driver + ';SERVER=' + server + ';PORT=1433;DATABASE=' + db_name + ';UID=' + username + ';PWD=' + password)
+            
+            # cur = conn.cursor()
+            # cur.execute("select * from [dbo].[data_1$]")
+            # data = cur.featchall()
+            data = pd.read_sql("select * from [dbo].[data_1$]",conn)
+                        
             logging.info("Loaded data as DF")
 
             os.makedirs(os.path.dirname(self.ingestion_path.test_path),exist_ok=True)
