@@ -6,7 +6,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import pyodbc
 from dataclasses import dataclass
-
+from src.components.data_transformation import DataTranformation
+from src.components.data_transformation import DataTranformationSetting
 @dataclass
 class DataIngestionPaths:
     train_path = os.path.join("artifacts","train.csv")
@@ -58,4 +59,7 @@ class DataIngestion:
         
 if __name__ == "__main__":
     data_injestion_obj = DataIngestion()
-    data_injestion_obj.start_ingestion_data()
+    train_path,test_path = data_injestion_obj.start_ingestion_data()
+    data_transform_obj = DataTranformation()
+    data_transform_obj.start_data_tranformation(train_path,test_path)
+    
