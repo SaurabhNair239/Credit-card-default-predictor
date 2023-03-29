@@ -5,4 +5,5 @@ scikit-learn
 xgboost
 pyodbc
 dill
+streamlit==1.13.0
 -e .

@@ -61,6 +61,8 @@ class DataIngestion:
 if __name__ == "__main__":
     data_injestion_obj = DataIngestion()
     train_path,test_path = data_injestion_obj.start_ingestion_data()
+    # dd = pd.read_csv(train_path)
+    # print(dd.info())
     data_transform_obj = DataTranformation()
     train_data,test_data,path = data_transform_obj.start_data_tranformation(train_path,test_path)
     model_trainer_obj = model_trainer()

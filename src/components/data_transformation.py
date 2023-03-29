@@ -71,7 +71,7 @@ class DataTranformation:
 
             train_target_feature = train_data[target_column]
             test_target_feature = test_data[target_column]
-
+            
             logging.info("Preprocessing train data")
             train_input_data_preprocessed = preprocess_obj.fit_transform(input_feature_train)
 
