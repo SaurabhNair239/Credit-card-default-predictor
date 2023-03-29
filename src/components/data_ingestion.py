@@ -7,7 +7,8 @@ from sklearn.model_selection import train_test_split
 import pyodbc
 from dataclasses import dataclass
 from src.components.data_transformation import DataTranformation
-from src.components.data_transformation import DataTranformationSetting
+# from src.components.data_transformation import DataTranformationSetting
+from src.components.model_trainer import model_trainer
 @dataclass
 class DataIngestionPaths:
     train_path = os.path.join("artifacts","train.csv")
@@ -61,5 +62,7 @@ if __name__ == "__main__":
     data_injestion_obj = DataIngestion()
     train_path,test_path = data_injestion_obj.start_ingestion_data()
     data_transform_obj = DataTranformation()
-    data_transform_obj.start_data_tranformation(train_path,test_path)
-    
+    train_data,test_data,path = data_transform_obj.start_data_tranformation(train_path,test_path)
+    model_trainer_obj = model_trainer()
+    accuracy_val = model_trainer_obj.training_model(train_arr=train_data,test_arr = test_data,preprocessor_path=path)
+    print(accuracy_val)
