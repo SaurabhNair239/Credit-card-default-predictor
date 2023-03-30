@@ -23,11 +23,17 @@ class DataIngestion:
         logging.info("Started Data ingestion method")
         try:
             #data = pd.read_csv("notebook/data/UCI_Credit_Card.csv")
-            server = "studentpractice.database.windows.net"
-            db_name = "credit_card_defaulter"
-            username= "Saurabh"
-            password = "C50keshavkunj"
+            # server = "studentpractice.database.windows.net"
+            # db_name = "credit_card_defaulter"
+            # username= "Saurabh"
+            # password = "C50keshavkunj"
             driver= '{ODBC Driver 17 for SQL Server}'
+
+            server = os.environ['server']
+            db_name = os.environ['db']
+            username = os.environ['user']
+            password = os.environ['pass']
+            # driver = os.environ['driver']
             conn = pyodbc.connect('DRIVER=' + driver + ';SERVER=' + server + ';PORT=1433;DATABASE=' + db_name + ';UID=' + username + ';PWD=' + password)
             
             # cur = conn.cursor()
@@ -63,6 +69,7 @@ if __name__ == "__main__":
     train_path,test_path = data_injestion_obj.start_ingestion_data()
     # dd = pd.read_csv(train_path)
     # print(dd.info())
+    print(os.environ['server'],os.environ['db'],os.environ['user'])
     data_transform_obj = DataTranformation()
     train_data,test_data,path = data_transform_obj.start_data_tranformation(train_path,test_path)
     model_trainer_obj = model_trainer()
