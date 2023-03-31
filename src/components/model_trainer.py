@@ -9,7 +9,7 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
-from sklearn.metrics import precision_score,accuracy_score
+from sklearn.metrics import accuracy_score
 import os
 from src.utils import save_object
 
@@ -32,24 +32,57 @@ class model_trainer:
                 test_arr[:,-1]
             )       
             models = {
-                "Logistic Regression": LogisticRegression(),
                 "Random Forest":RandomForestClassifier(),
                 "Decision Tree": DecisionTreeClassifier(),
-                "SVM": SVC(),
+                # "SVM": SVC(),
                 "XGBClassifier": XGBClassifier(),
                 "KNN":KNeighborsClassifier()
             }     
+            
 
-            report = evaluation(X_train,y_train,X_test,y_test,model=models)
+            hyper_parameter = {
 
-            report_values = list(report.values())
-            report_keys = list(report.keys())
+                "Random Forest":{
+                    'criterion': ['gini','entropy'],
+                    'max_depth':[10,20,30],
+                    'min_samples_split': [0.2,0.3,0.5],
+                    'n_estimators':[100,150,200]
+                },
+                
+                "Decision Tree":{
+                'criterion': ['gini','entropy'],
+                'splitter': ['random','best'],
+                'max_depth': [10,30,20],
+                'min_samples_split': [0.2,0.3,0.5]
+                },
 
-            model_name = report_keys[report_values.index(max(report_values))]
+            #     "SVM":{
+            #     'C': [0.1, 1, 10 ], 
+            #   'gamma': [1, 0.1, 0.01],
+            #     },
 
-            best_model = models[model_name]
+                "XGBClassifier":{
+                'learning_rate':[0.1,0.01,0.001],
+                'max_depth':[3,5,7,9],
+                'n_estimators': [4,10,20,50,150,140] 
+                },
 
-            if max(report_values) < 0.6:
+                "KNN":{
+                'n_neighbors': list(range(1,15,2))
+                }
+
+            }
+
+            report = evaluation(X_train,y_train,X_test,y_test,model=models,parameters=hyper_parameter)
+
+
+            report_acc = [i[0] for i in report.values()]
+            model_data = [i[1] for i in report.values()]
+            best_model = model_data[report_acc.index(max(report_acc))]
+            report_keys = [i for i in report.keys()]
+            model_name = report_keys[report_acc.index(max(report_acc))]
+            print("Best Model: ",model_name)
+            if max(report_acc) < 0.6:
                 raise CustomException("No best Model Found")
             
             logging.info("Found best model")

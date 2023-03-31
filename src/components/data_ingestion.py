@@ -23,16 +23,13 @@ class DataIngestion:
         logging.info("Started Data ingestion method")
         try:
             #data = pd.read_csv("notebook/data/UCI_Credit_Card.csv")
-            server = "studentpractice.database.windows.net"
-            db_name = "credit_card_defaulter"
-            username= "Saurabh"
-            password = "C50keshavkunj"
+            
             driver= '{ODBC Driver 17 for SQL Server}'
 
-            # server = os.environ['server']
-            # db_name = os.environ['db']
-            # username = os.environ['user']
-            # password = os.environ['pass']
+            server = os.environ['server']
+            db_name = os.environ['db']
+            username = os.environ['user']
+            password = os.environ['pass']
             # driver = os.environ['driver']
             conn = pyodbc.connect('DRIVER=' + driver + ';SERVER=' + server + ';PORT=1433;DATABASE=' + db_name + ';UID=' + username + ';PWD=' + password)
             

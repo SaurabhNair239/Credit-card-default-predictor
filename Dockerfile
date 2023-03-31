@@ -15,6 +15,7 @@ RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
+EXPOSE 8501
 ENTRYPOINT ["streamlit","run"]
 CMD ["app.py"]
 # CMD ["/usr/local/bin/python","src/components/data_ingestion.py" ]

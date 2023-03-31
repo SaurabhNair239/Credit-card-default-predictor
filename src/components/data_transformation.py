@@ -24,11 +24,11 @@ class DataTranformation:
 
     def get_data_tranformer(self):
         try:
-            numeric_cols = ['LIMIT_BAL','PAY_0','PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6', 'BILL_AMT1', 'BILL_AMT2','BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
+            numeric_cols = ['LIMIT_BAL', 'BILL_AMT1', 'BILL_AMT2','BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
             'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
             outlier_cols = ['BILL_AMT1', 'BILL_AMT2','BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
             'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
-            categorical_cols = ['SEX', 'EDUCATION', 'MARRIAGE']
+            categorical_cols = ['SEX', 'EDUCATION', 'MARRIAGE','PAY_0','PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6']
             num_pipeline = Pipeline(
                  steps=[
                 ("Standard scaler",StandardScaler())
@@ -37,8 +37,7 @@ class DataTranformation:
             logging.info("Pipeline completed for numerical data")
             categorical_pipeline = Pipeline(
                 steps=[
-                ("OnehotEncoder",OneHotEncoder(sparse=False)),
-                ("Standard Scaler",StandardScaler())
+                ("OnehotEncoder",OneHotEncoder(sparse=False,handle_unknown='ignore')),
                 ]
             )
             logging.info("Pipeline completed categorical pipeline")
@@ -53,7 +52,6 @@ class DataTranformation:
 
             logging.info("Outlier removal treatment done")
 
-
             preprocess = ColumnTransformer(
                 [
                 ("Numerical pipeline",num_pipeline,numeric_cols),
@@ -67,7 +65,9 @@ class DataTranformation:
 
         except Exception as e:
             raise CustomException(e,sys)
-        
+
+
+
     def start_data_tranformation(self,train_path,test_path):
         try:
             train_data = pd.read_csv(train_path)
