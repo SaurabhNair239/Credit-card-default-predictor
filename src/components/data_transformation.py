@@ -10,6 +10,7 @@ from sklearn.pipeline import Pipeline
 from src.exception import CustomException
 import os
 from src.utils import save_object
+from sklearn.base import BaseEstimator,TransformerMixin
 
 
 @dataclass
@@ -24,6 +25,8 @@ class DataTranformation:
     def get_data_tranformer(self):
         try:
             numeric_cols = ['LIMIT_BAL','PAY_0','PAY_2', 'PAY_3', 'PAY_4', 'PAY_5', 'PAY_6', 'BILL_AMT1', 'BILL_AMT2','BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
+            'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
+            outlier_cols = ['BILL_AMT1', 'BILL_AMT2','BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
             'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
             categorical_cols = ['SEX', 'EDUCATION', 'MARRIAGE']
             num_pipeline = Pipeline(
@@ -40,9 +43,21 @@ class DataTranformation:
             )
             logging.info("Pipeline completed categorical pipeline")
 
+
+            numerical_oulier_pipeline = Pipeline(
+                steps=[
+                ("Onlier removal",OutlierTreatment()),
+                ("Simple Imputer",SimpleImputer(strategy="median"))
+                ]
+            )
+
+            logging.info("Outlier removal treatment done")
+
+
             preprocess = ColumnTransformer(
                 [
                 ("Numerical pipeline",num_pipeline,numeric_cols),
+                ("Oulier removal Pipeline",numerical_oulier_pipeline,outlier_cols),
                 ("Categorical Pipeline",categorical_pipeline,categorical_cols)
                 ]
             )
@@ -93,5 +108,55 @@ class DataTranformation:
             logging.info("Saved Preprocessing pipeline Pickle file")      
             return train_data,test_data,self.data_tranform_setting.preprocess_file_path
 
+        except Exception as e:
+            raise CustomException(e,sys)
+        
+
+class OutlierTreatment(BaseEstimator,TransformerMixin):
+    
+    def __init__(self):
+        self.lower_bound = []
+        self.upper_bound = []
+
+    def outlier_ub_lb(self,X):
+        q1 = X.quantile(0.25)
+        q3 = X.quantile(0.75)
+        iqr = q3-q1
+        self.lower_bound.append(q1 - (1.5*iqr))
+        self.upper_bound.append(q3 + (1.5*iqr))
+
+    
+
+    def outlier_data_transformer(self,X):
+        X.apply(self.outlier_ub_lb)
+        for i in range(X.shape[1]):
+            copy_data = X.iloc[:,i].copy()
+            copy_data[(copy_data < self.lower_bound[i]) & (copy_data > self.upper_bound[i])] = np.nan
+            X.iloc[:,i]=copy_data
+        return X
+
+               
+    def fit_transform(self,X,y=None):
+        
+        try:
+            data_transformed = self.outlier_data_transformer(X)
+            return data_transformed
+        except Exception as e:
+            raise CustomException(e,sys)
+        
+    def transform(self,X,y=None):
+        try:
+            for i in range(X.shape[1]):
+                copy_data = X.iloc[:,i].copy()
+                copy_data[(copy_data < self.lower_bound[i]) & (copy_data > self.upper_bound[i])] = np.nan
+                X.iloc[:,i]=copy_data    
+            return X
+        except Exception as e:
+            raise CustomException(e,sys)
+        
+    def fit(self,X,y=None):
+        try:
+            self.outlier_data_transformer(X)
+            return self
         except Exception as e:
             raise CustomException(e,sys)
