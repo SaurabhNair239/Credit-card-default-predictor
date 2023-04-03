@@ -1,7 +1,7 @@
 # Default of Credit Card Clients Dataset
 It is an machine learning classification based model which is helpful in predicting that the user will opt for the default payment system or not.
 ### Workflow 
-    
+![ML Workflow](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/Imgs/workflow.png)
 ## Data Analysis using SQL Commands
 
 No of female candidates
