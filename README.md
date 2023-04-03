@@ -32,7 +32,7 @@ No data from seperate Marriage status
 
 > select MARRIAGE,count(MARRIAGE) FROM data group by MARRIAGE
 
-[Customer Marital status](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/notebook/figure3.jpeg)
+![Customer Marital status](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/notebook/figure3.jpeg)
 
 Update Married status
 
@@ -42,13 +42,13 @@ Education and marriage in a descending order
 
 > SELECT EDUCATION,MARRIAGE,count(MARRIAGE) as counting FROM data group by EDUCATION, MARRIAGE order by counting desc;
 
-[Marital status education](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/notebook/figure4.jpeg)
+![Marital status education](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/notebook/figure4.jpeg)
 
 Education vs output
 
 > SELECT EDUCATION, default_payment_next_month as output_val, count(default_payment_next_month) Count_values from data group by EDUCATION,default_payment_next_month order by Count_values desc
 
-[Education vs Output](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/notebook/figure5.jpeg)
+![Education vs Output](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/notebook/figure5.jpeg)
 
 Gender vs output
 
