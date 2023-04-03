@@ -2,7 +2,12 @@
 It is an machine learning classification based model which is helpful in predicting that the user will opt for the default payment system or not.
 ### Workflow 
 ![ML Workflow](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/Imgs/workflow.jpg)
-## Data Analysis using SQL Commands
+
+Dataset: https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset
+
+## Data Analysis
+
+###  Data Analysis using SQL Commands 
 
 No of female candidates
 > SELECT COUNT(*) FROM data where sex='Female' 
