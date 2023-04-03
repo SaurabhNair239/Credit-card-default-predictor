@@ -68,8 +68,10 @@ Average payment_amount of month 1 to 6 according to gender and education
 > docker build -t <YOUR_USERNAME>/<IMAGE_NAME> .
 
 * Running Docker file on local system
-> docker run -p 8501:8501 <YOUR_USERNAME>/<IMAGE_NAME>
+> docker run server=<SERVER_LINK> -e db_name=<DATABASE_NAME> -e username=<USERNAME> -e password=<PASSWORD> -p 8501:8501 <YOUR_USERNAME>/<IMAGE_NAME> 
 
 ** Note Now you can start the application in localhost on port number 8501: https://localhost:8501
 
 * Pushing Docker file on Docker Hub 
+>docker push <<YOUR_USERNAME>/<IMAGE_NAME>
+
