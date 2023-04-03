@@ -15,7 +15,7 @@ No of female candidates
 No of Male candidates
 
 > SELECT COUNT(*) FROM data where sex='Female' 
-
+![Female male customer](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/notebook/figure1.jpeg)
 No of Female accoding to education
 
 > SELECT EDUCATION,COUNT(*) FROM data where sex='Female' group by "EDUCATION" 
