@@ -5,6 +5,8 @@ It is an machine learning classification based model which is helpful in predict
 
 Dataset: https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset
 
+Application link: https://credit-card-defaulter.azurewebsites.net/
+
 ## Data Analysis
 
 ###  Data Analysis using SQL Commands 
@@ -69,9 +71,22 @@ Average payment_amount of month 1 to 6 according to gender and education
 
 * Running Docker file on local system
 > docker run server=<SERVER_LINK> -e db_name=<DATABASE_NAME> -e username=<USERNAME> -e password=<PASSWORD> -p 8501:8501 <YOUR_USERNAME>/<IMAGE_NAME> 
-
+![]
 ** Note Now you can start the application in localhost on port number 8501: https://localhost:8501
 
 * Pushing Docker file on Docker Hub 
 >docker push <<YOUR_USERNAME>/<IMAGE_NAME>
+
+## Deployment on Azure
+
+![azure page 1](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/Imgs/azure_1.jpg)
+
+![azure page 2](https://github.com/SaurabhNair239/Credit-card-default-predictor/blob/main/Imgs/azure_2.jpg)
+
+** Note the deployment is not free of cost one so if you are using this service for educational purpose stop it after the usage. 
+
+## Next step:
+* Imporving models by determining important features
+* Data analysis using R programming 
+
 
