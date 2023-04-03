@@ -61,3 +61,14 @@ Average LIMIT balance of gender on the basis of their default pyment next month
 Average payment_amount of month 1 to 6 according to gender and education 
 
 > SELECT EDUCATION,SEX,AVG(PAY_AMT1+PAY_AMT2+PAY_AMT3+PAY_AMT4+PAY_AMT5+PAY_AMT6) as Average_payment from data group by EDUCATION,SEX order by Average_payment desc;
+
+
+## Docker command
+*  Building Docker file
+> docker build -t <YOUR_USERNAME>/<IMAGE_NAME> .
+
+* Running Docker file on local system
+> docker run -p 8501:8501 <YOUR_USERNAME>/<IMAGE_NAME>
+** Note Now you can start the application in localhost on port number 8501: https://localhost:8501
+
+* Pushing Docker file on Docker Hub 
